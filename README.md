@@ -1,6 +1,6 @@
 # Beauty Store API
 
-API backend para sistema de ventas de productos de belleza. Desarrollada como prueba técnica para Backend Developer Senior.
+API backend para sistema de ventas de productos de belleza. Desarrollada como prueba técnica para Backend Developer.
 
 ## 🚀 Stack Tecnológico
 
@@ -17,8 +17,28 @@ API backend para sistema de ventas de productos de belleza. Desarrollada como pr
 - Node.js 20+
 - Docker y Docker Compose
 - npm o yarn
+## 🚀 Quick Start
 
-## 🛠️ Instalación
+```bash
+git clone https://github.com/CamiloPuche/beauty-backend.git
+cd beauty-backend
+npm install
+docker compose up -d mongodb localstack
+npm run seed
+npm run start:dev
+```
+
+**URLs:**
+- **Swagger:** http://localhost:3000/api/docs
+- **API:** http://localhost:3000
+
+**Credenciales:**
+- **Admin:** admin@beauty.com / admin123
+- **User:** user@beauty.com / user123
+
+---
+
+## 🛠️ Instalación Detallada
 
 ### 1. Clonar el repositorio
 
@@ -39,7 +59,7 @@ npm install
 cp .env.example .env
 ```
 
-Editar `.env` con tus credenciales:
+Editar `.env` con tus credenciales (opcional, los valores por defecto funcionan para desarrollo):
 
 ```env
 # MongoDB
@@ -48,7 +68,7 @@ MONGODB_URI=mongodb://localhost:27017/beauty-store
 # JWT
 JWT_SECRET=your-super-secret-key
 
-# Email (Mailtrap)
+# Email (Mailtrap - opcional)
 SMTP_HOST=sandbox.smtp.mailtrap.io
 SMTP_PORT=2525
 SMTP_USER=your-mailtrap-user
@@ -61,22 +81,12 @@ WEBHOOK_SECRET=your-webhook-secret
 ### 4. Levantar servicios con Docker
 
 ```bash
-# Inicia MongoDB y LocalStack (S3)
 docker compose up -d mongodb localstack
 ```
 
-### 5. Ejecutar la aplicación
+### 5. Crear usuarios de prueba
 
-```bash
-# Desarrollo
-npm run start:dev
-
-# Producción
-npm run build
-npm run start:prod
-```
-
-### 6. Crear usuarios de prueba (por seguridad no se puede autoasignar el rol ADMIN al registrar un usuario)
+Por seguridad, no se puede auto-asignar el rol ADMIN al registrar un usuario. Ejecuta el seed para crear usuarios de prueba:
 
 ```bash
 npm run seed
@@ -86,6 +96,12 @@ Esto crea:
 - **Admin:** admin@beauty.com / admin123
 - **User:** user@beauty.com / user123
 
+### 6. Ejecutar la aplicación
+
+```bash
+npm run start:dev
+```
+
 ## 📚 Documentación API
 
 Una vez iniciada la aplicación, accede a:
@@ -93,30 +109,27 @@ Una vez iniciada la aplicación, accede a:
 - **Swagger UI:** http://localhost:3000/api/docs
 - **API Base URL:** http://localhost:3000
 
-## 🔐 Autenticación
+## 🔐 Autenticación (usando Postman)
+
+Importa la colección `Beauty-Store-API.postman_collection.json` en Postman.
 
 ### Registrar usuario
-
-```bash
-curl -X POST http://localhost:3000/auth/register \
-  -H "Content-Type: application/json" \
-  -d '{"name":"John Doe","email":"john@example.com","password":"password123"}'
+📁 **Auth** → **Register User**
+```json
+{
+  "name": "Test User",
+  "email": "user@beauty.com",
+  "password": "user123"
+}
 ```
 
 ### Login
+📁 **Auth** → **Login User** o **Login Admin**
+- Los tokens se guardan automáticamente en las variables de la colección
 
-```bash
-curl -X POST http://localhost:3000/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{"email":"john@example.com","password":"password123"}'
-```
-
-### Usar el token
-
-```bash
-curl -X GET http://localhost:3000/auth/profile \
-  -H "Authorization: Bearer <TOKEN>"
-```
+### Ver perfil
+📁 **Auth** → **Get Profile**
+- Requiere token de autenticación
 
 ## 📦 Endpoints Principales
 
@@ -152,34 +165,52 @@ curl -X GET http://localhost:3000/auth/profile \
 
 *El webhook valida firma HMAC
 
-## 💳 Flujo de Pago (Mock)
+## 💳 Flujo de Pago Completo (usando Postman)
 
-1. **Crear orden:**
-```bash
-curl -X POST http://localhost:3000/orders \
-  -H "Authorization: Bearer <TOKEN>" \
-  -H "Content-Type: application/json" \
-  -d '{"items":[{"productId":"<PRODUCT_ID>","quantity":2}]}'
-```
+Importa la colección `Beauty-Store-API.postman_collection.json` en Postman.
 
-2. **Iniciar pago:**
-```bash
-curl -X POST http://localhost:3000/orders/<ORDER_ID>/pay \
-  -H "Authorization: Bearer <TOKEN>"
-```
+### Paso 1: Login Admin
+📁 **Auth** → **Login Admin**
+- Email: `admin@beauty.com`
+- Password: `admin123`
+- ✅ El token se guarda automáticamente en `{{adminToken}}`
 
-3. **Simular pago exitoso (obtener webhook payload):**
-```bash
-curl http://localhost:3000/payments/mock/<TRANSACTION_ID>/success
-```
+### Paso 2: Crear Producto (Admin)
+📁 **Products** → **Create Product (Admin)**
+- Requiere token de admin
+- ✅ El `productId` se guarda automáticamente
 
-4. **Enviar webhook:**
-```bash
-curl -X POST http://localhost:3000/payments/webhook \
-  -H "Content-Type: application/json" \
-  -H "x-webhook-signature: <SIGNATURE>" \
-  -d '<WEBHOOK_PAYLOAD>'
-```
+### Paso 3: Login User
+📁 **Auth** → **Login User**
+- Email: `user@beauty.com`
+- Password: `user123`
+- ✅ El token se guarda en `{{token}}`
+
+### Paso 4: Crear Orden
+📁 **Orders** → **Create Order**
+- Usa el token de user
+- ✅ El `orderId` se guarda automáticamente
+
+### Paso 5: Iniciar Pago
+📁 **Payments** → **1. Initiate Payment**
+- ✅ El `transactionId` se guarda automáticamente
+
+### Paso 6: Obtener Webhook Mock
+📁 **Payments** → **2. Get Mock Success Webhook**
+- ✅ El `webhookPayload` y `webhookSignature` se guardan automáticamente
+
+### Paso 7: Enviar Webhook
+📁 **Payments** → **3. Send Webhook (Success)**
+- Response esperado: `{"success": true, "message": "Event processed successfully"}`
+
+### Paso 8: Verificar Orden Pagada
+📁 **Orders** → **Get Order by ID**
+- Response esperado: `status: "PAID"` y `receiptUrl` con URL de S3
+
+### Paso 9: Probar Idempotencia
+📁 **Payments** → **3. Send Webhook (Success)** (ejecutar de nuevo)
+- Response esperado: `{"success": true, "message": "Event already processed"}`
+- ✅ Demuestra que el webhook no reprocesa eventos duplicados
 
 ## 🧪 Testing
 

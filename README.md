@@ -76,6 +76,16 @@ npm run build
 npm run start:prod
 ```
 
+### 6. Crear usuarios de prueba (opcional)
+
+```bash
+npm run seed
+```
+
+Esto crea:
+- **Admin:** admin@beauty.com / admin123
+- **User:** user@beauty.com / user123
+
 ## 📚 Documentación API
 
 Una vez iniciada la aplicación, accede a:

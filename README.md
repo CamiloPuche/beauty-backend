@@ -1,98 +1,236 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Beauty Store API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+API backend para sistema de ventas de productos de belleza. Desarrollada como prueba técnica para Backend Developer Senior.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 🚀 Stack Tecnológico
 
-## Description
+- **Framework:** NestJS (Node.js)
+- **Base de datos:** MongoDB (Mongoose)
+- **Almacenamiento:** AWS S3 (LocalStack para desarrollo)
+- **Email:** Nodemailer (Mailtrap para desarrollo)
+- **Autenticación:** JWT
+- **Documentación:** Swagger/OpenAPI
+- **Contenedores:** Docker
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## 📋 Requisitos Previos
 
-## Project setup
+- Node.js 20+
+- Docker y Docker Compose
+- npm o yarn
+
+## 🛠️ Instalación
+
+### 1. Clonar el repositorio
 
 ```bash
-$ npm install
+git clone https://github.com/CamiloPuche/beauty-backend.git
+cd beauty-backend
 ```
 
-## Compile and run the project
+### 2. Instalar dependencias
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm install
 ```
 
-## Run tests
+### 3. Configurar variables de entorno
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+cp .env.example .env
 ```
 
-## Deployment
+Editar `.env` con tus credenciales:
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+```env
+# MongoDB
+MONGODB_URI=mongodb://localhost:27017/beauty-store
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+# JWT
+JWT_SECRET=your-super-secret-key
+
+# Email (Mailtrap)
+SMTP_HOST=sandbox.smtp.mailtrap.io
+SMTP_PORT=2525
+SMTP_USER=your-mailtrap-user
+SMTP_PASS=your-mailtrap-password
+
+# Webhook
+WEBHOOK_SECRET=your-webhook-secret
+```
+
+### 4. Levantar servicios con Docker
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+# Inicia MongoDB y LocalStack (S3)
+docker compose up -d mongodb localstack
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### 5. Ejecutar la aplicación
 
-## Resources
+```bash
+# Desarrollo
+npm run start:dev
 
-Check out a few resources that may come in handy when working with NestJS:
+# Producción
+npm run build
+npm run start:prod
+```
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+## 📚 Documentación API
 
-## Support
+Una vez iniciada la aplicación, accede a:
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+- **Swagger UI:** http://localhost:3000/api/docs
+- **API Base URL:** http://localhost:3000
 
-## Stay in touch
+## 🔐 Autenticación
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### Registrar usuario
 
-## License
+```bash
+curl -X POST http://localhost:3000/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{"name":"John Doe","email":"john@example.com","password":"password123"}'
+```
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+### Login
+
+```bash
+curl -X POST http://localhost:3000/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"john@example.com","password":"password123"}'
+```
+
+### Usar el token
+
+```bash
+curl -X GET http://localhost:3000/auth/profile \
+  -H "Authorization: Bearer <TOKEN>"
+```
+
+## 📦 Endpoints Principales
+
+### Auth
+| Método | Endpoint | Descripción | Auth |
+|--------|----------|-------------|------|
+| POST | `/auth/register` | Registrar usuario | No |
+| POST | `/auth/login` | Iniciar sesión | No |
+| GET | `/auth/profile` | Ver perfil | Sí |
+
+### Products
+| Método | Endpoint | Descripción | Auth |
+|--------|----------|-------------|------|
+| GET | `/products` | Listar productos | No |
+| GET | `/products/:id` | Ver producto | No |
+| POST | `/products` | Crear producto | ADMIN |
+| PATCH | `/products/:id` | Actualizar producto | ADMIN |
+| DELETE | `/products/:id` | Eliminar producto | ADMIN |
+
+### Orders
+| Método | Endpoint | Descripción | Auth |
+|--------|----------|-------------|------|
+| POST | `/orders` | Crear orden | USER |
+| GET | `/orders` | Mis órdenes | USER |
+| GET | `/orders/:id` | Ver orden | USER |
+| GET | `/admin/orders` | Todas las órdenes | ADMIN |
+
+### Payments
+| Método | Endpoint | Descripción | Auth |
+|--------|----------|-------------|------|
+| POST | `/orders/:id/pay` | Iniciar pago | USER |
+| POST | `/payments/webhook` | Webhook de pagos | No* |
+
+*El webhook valida firma HMAC
+
+## 💳 Flujo de Pago (Mock)
+
+1. **Crear orden:**
+```bash
+curl -X POST http://localhost:3000/orders \
+  -H "Authorization: Bearer <TOKEN>" \
+  -H "Content-Type: application/json" \
+  -d '{"items":[{"productId":"<PRODUCT_ID>","quantity":2}]}'
+```
+
+2. **Iniciar pago:**
+```bash
+curl -X POST http://localhost:3000/orders/<ORDER_ID>/pay \
+  -H "Authorization: Bearer <TOKEN>"
+```
+
+3. **Simular pago exitoso (obtener webhook payload):**
+```bash
+curl http://localhost:3000/payments/mock/<TRANSACTION_ID>/success
+```
+
+4. **Enviar webhook:**
+```bash
+curl -X POST http://localhost:3000/payments/webhook \
+  -H "Content-Type: application/json" \
+  -H "x-webhook-signature: <SIGNATURE>" \
+  -d '<WEBHOOK_PAYLOAD>'
+```
+
+## 🧪 Testing
+
+```bash
+# Tests unitarios
+npm run test
+
+# Tests e2e
+npm run test:e2e
+
+# Coverage
+npm run test:cov
+```
+
+## 🏗️ Arquitectura
+
+```
+src/
+├── common/           # Elementos compartidos
+│   ├── decorators/   # @Roles, @CurrentUser, @Public
+│   ├── filters/      # Exception filters
+│   ├── guards/       # JWT, Roles
+│   └── interceptors/ # Logging
+├── config/           # Configuración
+├── modules/
+│   ├── auth/         # Autenticación JWT
+│   ├── users/        # Gestión de usuarios
+│   ├── products/     # CRUD productos
+│   ├── orders/       # Gestión de órdenes
+│   ├── payments/     # Pagos + Webhook
+│   ├── storage/      # S3 para recibos
+│   └── notifications/# Email
+└── main.ts
+```
+
+## ✅ Características Implementadas
+
+- [x] JWT Authentication con roles (USER/ADMIN)
+- [x] CRUD de productos con soft-delete
+- [x] Órdenes con cálculo de totales
+- [x] Pagos mock con webhook
+- [x] **Idempotencia** en webhook (no procesa eventos duplicados)
+- [x] **Validación de firma** HMAC en webhook
+- [x] Subida de recibos a S3
+- [x] Envío de emails de confirmación
+- [x] Manejo global de errores con correlationId
+- [x] Swagger/OpenAPI
+- [x] Docker + Docker Compose
+
+## 📝 Decisiones Técnicas
+
+1. **Idempotencia:** Se guarda cada `eventId` del webhook en MongoDB antes de procesar. Si ya existe, se retorna éxito sin reprocesar.
+
+2. **Tolerancia a fallos en email:** El envío de email es asíncrono y no bloquea la confirmación del pago.
+
+3. **Recibo JSON:** Se optó por JSON en lugar de PDF por simplicidad, guardado en S3 con URL prefirmada de 7 días.
+
+4. **Firma de webhook:** HMAC-SHA256 con secret compartido, usando `timingSafeEqual` para evitar timing attacks.
+
+## 👤 Autor
+
+**Camilo Puche**  
+- GitHub: [@CamiloPuche](https://github.com/CamiloPuche)
+- Email: camilopuche73@gmail.com

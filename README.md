@@ -76,7 +76,7 @@ npm run build
 npm run start:prod
 ```
 
-### 6. Crear usuarios de prueba (opcional)
+### 6. Crear usuarios de prueba (por seguridad no se puede autoasignar el rol ADMIN al registrar un usuario)
 
 ```bash
 npm run seed

@@ -13,6 +13,10 @@ import { JwtAuthGuard, RolesGuard } from './common/guards';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { ProductsModule } from './modules/products/products.module';
+import { OrdersModule } from './modules/orders/orders.module';
+import { PaymentsModule } from './modules/payments/payments.module';
+import { StorageModule } from './modules/storage/storage.module';
+import { NotificationsModule } from './modules/notifications/notifications.module';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -38,10 +42,10 @@ import { AppService } from './app.service';
     AuthModule,
     UsersModule,
     ProductsModule,
-    // OrdersModule,
-    // PaymentsModule,
-    // StorageModule,
-    // NotificationsModule,
+    OrdersModule,
+    PaymentsModule,
+    StorageModule,
+    NotificationsModule,
   ],
   controllers: [AppController],
   providers: [
